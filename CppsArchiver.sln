@@ -3,24 +3,44 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppsArchiverAPI", "CppsArchiverAPI\CppsArchiverAPI.csproj", "{E3171221-BA4A-4526-8D49-459012301B47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CppsArchiverAPI", "CppsArchiverAPI\CppsArchiverAPI.csproj", "{E3171221-BA4A-4526-8D49-459012301B47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CppsArchiverCLI", "CppsArchiverCLI\CppsArchiverCLI.csproj", "{89445EAE-1415-4706-9886-D0179413301E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CppsArchiverCLI", "CppsArchiverCLI\CppsArchiverCLI.csproj", "{89445EAE-1415-4706-9886-D0179413301E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArchiverImplementation", "ArchiverImplementation\ArchiverImplementation.vcxproj", "{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E3171221-BA4A-4526-8D49-459012301B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E3171221-BA4A-4526-8D49-459012301B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3171221-BA4A-4526-8D49-459012301B47}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E3171221-BA4A-4526-8D49-459012301B47}.Debug|x64.Build.0 = Debug|Any CPU
 		{E3171221-BA4A-4526-8D49-459012301B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3171221-BA4A-4526-8D49-459012301B47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3171221-BA4A-4526-8D49-459012301B47}.Release|x64.ActiveCfg = Release|Any CPU
+		{E3171221-BA4A-4526-8D49-459012301B47}.Release|x64.Build.0 = Release|Any CPU
 		{89445EAE-1415-4706-9886-D0179413301E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{89445EAE-1415-4706-9886-D0179413301E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89445EAE-1415-4706-9886-D0179413301E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{89445EAE-1415-4706-9886-D0179413301E}.Debug|x64.Build.0 = Debug|Any CPU
 		{89445EAE-1415-4706-9886-D0179413301E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89445EAE-1415-4706-9886-D0179413301E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89445EAE-1415-4706-9886-D0179413301E}.Release|x64.ActiveCfg = Release|Any CPU
+		{89445EAE-1415-4706-9886-D0179413301E}.Release|x64.Build.0 = Release|Any CPU
+		{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}.Debug|Any CPU.Build.0 = Debug|x64
+		{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}.Debug|x64.ActiveCfg = Debug|x64
+		{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}.Debug|x64.Build.0 = Debug|x64
+		{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}.Release|Any CPU.ActiveCfg = Release|x64
+		{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}.Release|Any CPU.Build.0 = Release|x64
+		{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}.Release|x64.ActiveCfg = Release|x64
+		{398A7D4A-67F5-4ACD-BFBD-63680C5F3273}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
