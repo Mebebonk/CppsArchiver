@@ -8,4 +8,6 @@ add_custom_target(
 	COMMAND dotnet publish -o ${PROJECT_BINARY_DIR}/bin /p:DebugType=None /p:DebugSymbols=false
 )
 
+add_dependencies(${PROJECT_NAME} CppsArchiverAPI)
+
 install(DIRECTORY ${PROJECT_BINARY_DIR}/bin/ DESTINATION bin)
