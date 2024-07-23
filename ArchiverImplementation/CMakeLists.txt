@@ -12,7 +12,7 @@ add_library(
 
 target_include_directories(
 	${PROJECT_NAME} PRIVATE
-	${PROJECT_SOURCE}/include/
+	${PROJECT_SOURCE_DIR}/include/
 )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
