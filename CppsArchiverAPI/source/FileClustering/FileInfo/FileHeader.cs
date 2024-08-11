@@ -25,7 +25,20 @@ namespace CppsArchiverAPI.FileClustering
 				int externalAttributes,
 				int relativeOffset,
 				string fileName,
-				string extraField) : LFileHeader(signature, minVersion, general, compression, lastModTime, lastModDate, crcUncompressedData, compressedSize, uncompressedSize, fileNameLength, extraFieldLength, fileName, extraField)
+				string extraField) : LFileHeader(
+					signature,
+					minVersion,
+					general,
+					compression,
+					lastModTime,
+					lastModDate,
+					crcUncompressedData,
+					compressedSize,
+					uncompressedSize,
+					fileNameLength,
+					extraFieldLength,
+					fileName,
+					extraField)
 	{
 		public short MadeBy { get; } = madeBy;
 		public short CommentLength { get; } = commentLength;

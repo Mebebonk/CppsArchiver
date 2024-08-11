@@ -4,7 +4,19 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            if (args.Length == 0)
+            {
+                while (true)
+                {
+                    switch (Console.ReadLine())
+                    {
+                        default:
+                            return;
+                        case "why":
+                            return;
+                    }
+                }
+            }
         }
     }
 }
