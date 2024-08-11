@@ -14,7 +14,7 @@ namespace CppsArchiverAPI.FileClustering
 			return null;
 		}
 
-		public static long FindCentralDirectory(Stream stream)
+		private static long FindCentralDirectory(Stream stream)
 		{
 			long pos = stream.Length - 4;
 			byte[] buffer = new byte[4];
@@ -36,6 +36,11 @@ namespace CppsArchiverAPI.FileClustering
 				}
 
 			}
+		}
+
+		private static LFileHeader[] DeserializeZip(Stream stream, long CDStart)
+		{
+			return null!;
 		}
 
 	}
