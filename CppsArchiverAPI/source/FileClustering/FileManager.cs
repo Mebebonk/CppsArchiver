@@ -8,6 +8,6 @@ namespace CppsArchiverAPI.FileClustering
 {
 	internal static class FileManager
 	{
-
+		
 	}
 }
