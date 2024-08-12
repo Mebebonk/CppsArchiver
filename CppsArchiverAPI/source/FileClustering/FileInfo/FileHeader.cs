@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 namespace CppsArchiverAPI.FileClustering
 {
 	internal class CDFileHeader(
-				int signature,
 				short madeBy,
 				short minVersion,
 				short general,
@@ -26,7 +25,6 @@ namespace CppsArchiverAPI.FileClustering
 				int relativeOffset,
 				string fileName,
 				string extraField) : LFileHeader(
-					signature,
 					minVersion,
 					general,
 					compression,
@@ -49,7 +47,6 @@ namespace CppsArchiverAPI.FileClustering
 	}
 
 	internal class LFileHeader(
-					int signature,
 					short minVersion,
 					short general,
 					short compression,
@@ -63,7 +60,6 @@ namespace CppsArchiverAPI.FileClustering
 					string fileName,
 					string extraField)
 	{
-		public int Signature { get; } = signature;
 		public short MinVersion { get; } = minVersion;
 		public short General { get; } = general;
 		public short Compression { get; } = compression;

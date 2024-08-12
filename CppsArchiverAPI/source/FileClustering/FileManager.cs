@@ -8,15 +8,17 @@ namespace CppsArchiverAPI.FileClustering
 {
 	internal static class FileManager
 	{
-		public static LFileHeader[]? ZipLookup(Stream stream)
+		public static CDFileHeader[]? GetCDFileHeaders(Stream stream)
 		{
+			long cDpos = FindCentralDirectory(stream);
+			if(cDpos == -1) { return null; }
 
-			return null;
+			return DeserializeCD(stream, cDpos);
 		}
 
 		private static long FindCentralDirectory(Stream stream)
 		{
-			long pos = stream.Length - 4;
+			long pos = stream.Length - 22;
 			byte[] buffer = new byte[4];
 
 			while (true)
@@ -24,7 +26,7 @@ namespace CppsArchiverAPI.FileClustering
 				stream.Position = pos;
 				stream.Read(buffer, 0, buffer.Length);
 
-				if (buffer.SequenceEqual((byte[])[80, 75, 1, 2]))
+				if (buffer.SequenceEqual((byte[])[80, 75, 5, 6]))
 				{
 					return pos;
 				}
@@ -38,10 +40,14 @@ namespace CppsArchiverAPI.FileClustering
 			}
 		}
 
-		private static LFileHeader[] DeserializeZip(Stream stream, long CDStart)
+		private static CDFileHeader[] DeserializeCD(Stream stream, long CDStart)
 		{
 			return null!;
 		}
 
+		private static CDFileHeader DeserializeCDHeader(Stream stream)
+		{
+
+		}
 	}
 }
