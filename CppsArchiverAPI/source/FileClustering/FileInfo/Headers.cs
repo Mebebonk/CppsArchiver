@@ -51,7 +51,8 @@ namespace CppsArchiverAPI.FileClustering
 				int externalAttributes,
 				int relativeOffset,
 				string fileName,
-				string extraField) : LFileHeader(
+				string extraField,
+				string fileComment) : LFileHeader(
 					minVersion,
 					general,
 					compression,
@@ -71,6 +72,7 @@ namespace CppsArchiverAPI.FileClustering
 		public short InternalAttributes { get; } = internalAttributes;
 		public int ExternalAttributes { get; } = externalAttributes;
 		public int RelativeOffset { get; } = relativeOffset;
+		public string FileComment { get; } = fileComment;
 	}
 
 	public class EOCDHeader(
