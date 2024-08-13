@@ -6,48 +6,49 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI.FileClustering
 {
-	internal static class FileManager
+	public static class FileManager
 	{
 		public static CDFileHeader[]? GetCDFileHeaders(Stream stream)
 		{
-			long cDpos = FindCentralDirectory(stream);
-			if(cDpos == -1) { return null; }
+			EOCDHeader? cDpos = FindCentralDirectory(stream);
+			if (cDpos == null) { return null; }
 
 			return DeserializeCD(stream, cDpos);
 		}
 
-		private static long FindCentralDirectory(Stream stream)
+		private static EOCDHeader? FindCentralDirectory(Stream stream)
 		{
 			long pos = stream.Length - 22;
-			byte[] buffer = new byte[4];
+			char[] cbuffer = new char[4];
+			using StreamReader sr = new(stream, leaveOpen: true);
 
 			while (true)
 			{
 				stream.Position = pos;
-				stream.Read(buffer, 0, buffer.Length);
+				sr.Read(cbuffer, 0, cbuffer.Length);
 
-				if (buffer.SequenceEqual((byte[])[80, 75, 5, 6]))
+				if (new string(cbuffer) == "PK\u0005\u0006")
 				{
-					return pos;
+					return DeserializeEOCDHeader(stream);
 				}
 
 				pos--;
 				if (pos < 0)
 				{
-					return -1;
+					return null;
 				}
 
 			}
 		}
 
-		private static CDFileHeader[] DeserializeCD(Stream stream, long CDStart)
+		private static CDFileHeader[] DeserializeCD(Stream stream, EOCDHeader CDStart)
 		{
 			return null!;
 		}
 
-		private static CDFileHeader DeserializeCDHeader(Stream stream)
+		private static EOCDHeader DeserializeEOCDHeader(Stream stream)
 		{
-
+			return null!;
 		}
 	}
 }
