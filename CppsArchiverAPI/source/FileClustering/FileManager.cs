@@ -16,7 +16,6 @@ namespace CppsArchiverAPI.FileClustering
 
 			return DeserializeCD(stream, cDpos);
 		}
-
 		private static EOCDHeader? FindCentralDirectory(Stream stream)
 		{
 			long pos = stream.Length - 22;
@@ -86,11 +85,11 @@ namespace CppsArchiverAPI.FileClustering
 			string fileComment = DeserializeString(stream, fileCommentLength);
 
 			return new CDFileHeader(versionMadeBy,
-									minVersion ,
-									GPF ,
-									compression ,
-									lastModifiedTime ,
-									lastModifiedDate ,
+									minVersion,
+									GPF,
+									compression,
+									lastModifiedTime,
+									lastModifiedDate,
 									CRC32,
 									compressedSize,
 									uncompressedSize,
@@ -139,9 +138,18 @@ namespace CppsArchiverAPI.FileClustering
 		}
 		private static string DeserializeString(Stream stream, long size)
 		{
+			if (size == 0)
+			{
+				return "";
+			}
+			//just why???
+			long pos = stream.Position;
+
 			char[] cBuffer = new char[size];
 			using StreamReader sr = new(stream, leaveOpen: true);
-			sr.Read(cBuffer);
+			sr.ReadBlock(cBuffer);
+
+			stream.Position = pos + size;
 
 			return new(cBuffer);
 		}
