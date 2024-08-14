@@ -142,16 +142,11 @@ namespace CppsArchiverAPI.FileClustering
 			{
 				return "";
 			}
-			//just why???
-			long pos = stream.Position;
 
-			char[] cBuffer = new char[size];
-			using StreamReader sr = new(stream, leaveOpen: true);
-			sr.ReadBlock(cBuffer);
+			byte[] buffer = new byte[size];
+			stream.Read(buffer);
 
-			stream.Position = pos + size;
-
-			return new(cBuffer);
+			return new(Encoding.UTF8.GetChars(buffer));
 		}
 	}
 }
