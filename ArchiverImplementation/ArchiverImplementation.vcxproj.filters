@@ -18,7 +18,7 @@
     <ClCompile Include="source\api\c_api.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\zip\ZIp.cpp">
+    <ClCompile Include="source\zip\Zip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,13 +29,13 @@
     <ClInclude Include="include\zip\Zip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\interfaces\IEncoder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\interfaces\IDecoder.h">
+    <ClInclude Include="include\functionality\Decoder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\api\defines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\functionality\decode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

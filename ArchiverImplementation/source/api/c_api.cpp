@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "zip/Zip.h"
+#include "functionality/decode.h"
 
 const char* getExceptionMessage(Exception exception)
 {
@@ -14,18 +15,16 @@ void deleteException(Exception exception)
 	delete static_cast<std::runtime_error*>(exception);
 }
 
+void setBufferSize(uint64_t size)
+{
+	bufferSize = size;
+}
+
 void unzip(uint64_t compressionMethod, uint64_t compressedSize, SendDataCallback sendDataCallback, ReceiveDataCallback receiveDataCallback, FinishCallback finishCallback, Exception* exception) try
 {
 	*exception = nullptr;
 
-	switch (compressionMethod)
-	{
-	case 0x0:
-		break;
-
-	case 0x8:
-		break;
-	}
+	decoding::decode<zip::Zip>(sendDataCallback, receiveDataCallback, finishCallback, compressionMethod, compressedSize);
 }
 catch (const std::exception& e)
 {

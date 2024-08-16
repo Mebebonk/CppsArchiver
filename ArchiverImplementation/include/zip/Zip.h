@@ -1,25 +1,26 @@
 #pragma once
 
-#include "interfaces/IEncoder.h"
-#include "interfaces/IDecoder.h"
+#include <cstdint>
 
 namespace zip
 {
-	class Zip : 
-		public encoding::IEncoder,
-		public decoding::IDecoder
+	class Zip
 	{
 	private:
 		uint64_t compressionMethod;
 		uint64_t compressedSize;
 
+	private:
+		void* decodeUncompressed(const char* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize);
+
+		void* decodeCompressed(const char* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize);
 
 	public:
 		Zip(uint64_t compressionMethod, uint64_t compressedSize);
 
-		void* encode(void* data, uint64_t dataSize) override;
+		uint64_t request();
 
-		void* decode(const char* encodedData, uint64_t encodedDataSize) override;
+		void* decode(const char* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize);
 
 		~Zip() = default;
 	};

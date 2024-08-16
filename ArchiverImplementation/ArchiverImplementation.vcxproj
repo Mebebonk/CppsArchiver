@@ -87,13 +87,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\api\c_api.cpp" />
-    <ClCompile Include="source\zip\ZIp.cpp" />
+    <ClCompile Include="source\zip\Zip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\api\c_api.h" />
     <ClInclude Include="include\api\defines.h" />
-    <ClInclude Include="include\interfaces\IDecoder.h" />
-    <ClInclude Include="include\interfaces\IEncoder.h" />
+    <ClInclude Include="include\functionality\decode.h" />
+    <ClInclude Include="include\functionality\Decoder.h" />
     <ClInclude Include="include\zip\Zip.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
