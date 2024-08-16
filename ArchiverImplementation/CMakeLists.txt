@@ -7,7 +7,7 @@ project(ArchiverImplementation)
 add_library(
 	${PROJECT_NAME} SHARED
 	source/api/c_api.cpp
-	source/zip/ZipStruct.cpp
+	source/zip/Zip.cpp
 )
 
 target_include_directories(

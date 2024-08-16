@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdint>
+#include "defines.h"
 
 #ifdef __LINUX__
 #define EXPORT extern "C" __attribute__((visibility("default")))
@@ -8,7 +8,8 @@
 #define EXPORT extern "C" __declspec(dllexport)
 #endif
 
-typedef const char* (*GetDataCallback)(uint64_t size);
-typedef void (*FinishCallback)();
+EXPORT const char* getExceptionMessage(Exception exception);
 
-EXPORT void unzip(const void* metaInformation, const char* fileName, const char* extraField, GetDataCallback dataCallback, FinishCallback finishCallback);
+EXPORT void deleteException(Exception exception);
+
+EXPORT void unzip(uint64_t compressionMethod, uint64_t compressedSize, SendDataCallback sendDataCallback, ReceiveDataCallback receiveDataCallback, FinishCallback finishCallback, Exception* exception);
