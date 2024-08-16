@@ -45,3 +45,23 @@ jobs:
         name: Linux
         path: build/bin
   
+
+  android-build:
+    runs-on: ubuntu-latest
+    container:
+      image: lazypanda07/ubuntu_cxx20:android
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build
+      shell: bash
+      run: |
+          cd scripts
+          source android_build.sh
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Android
+        path: build/bin
