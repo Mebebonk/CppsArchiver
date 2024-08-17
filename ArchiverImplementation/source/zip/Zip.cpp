@@ -10,11 +10,11 @@ namespace zip
 {
 	uint8_t* Zip::decodeUncompressed(const uint8_t* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
 	{
-		*decodedDataSize = encodedDataSize;
-
 		uint8_t* result = new uint8_t[encodedDataSize];
 
-		memcpy(result, encodedData, encodedDataSize);
+		*decodedDataSize = encodedDataSize;
+
+		std::copy(encodedData, encodedData + encodedDataSize, result);
 
 		return result;
 	}
