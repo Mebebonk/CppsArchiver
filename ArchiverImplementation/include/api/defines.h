@@ -2,8 +2,8 @@
 
 #include <cstdint>
 
-using SendDataCallback = void (*)(const void* data, uint64_t dataSize);
-using ReceiveDataCallback = void* (*)(uint64_t size);
+using SendDataCallback = void (*)(const uint8_t* data, uint64_t dataSize);
+using ReceiveDataCallback = uint8_t* (*)(uint64_t size);
 using FinishCallback = void (*)();
 using Exception = void*;
 

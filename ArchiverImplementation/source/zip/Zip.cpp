@@ -8,18 +8,18 @@
 
 namespace zip
 {
-	void* Zip::decodeUncompressed(const char* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
+	uint8_t* Zip::decodeUncompressed(const uint8_t* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
 	{
 		*decodedDataSize = encodedDataSize;
 
-		void* result = new char[encodedDataSize];
+		uint8_t* result = new uint8_t[encodedDataSize];
 
 		memcpy(result, encodedData, encodedDataSize);
 
 		return result;
 	}
 
-	void* Zip::decodeCompressed(const char* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
+	uint8_t* Zip::decodeCompressed(const uint8_t* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
 	{
 		return nullptr;
 	}
@@ -45,7 +45,7 @@ namespace zip
 		return size;
 	}
 
-	void* Zip::decode(const char* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
+	uint8_t* Zip::decode(const uint8_t* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
 	{
 		switch (compressionMethod)
 		{

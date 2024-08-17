@@ -14,9 +14,9 @@ namespace decoding
 
 		while (requestSize)
 		{
-			void* data = receiveDataCallback(requestSize);
+			uint8_t* data = receiveDataCallback(requestSize);
 			uint64_t resultSize = 0;
-			void* result = decoder.decode(static_cast<const char*>(data), requestSize, &resultSize);
+			uint8_t* result = decoder.decode(static_cast<const uint8_t*>(data), requestSize, &resultSize);
 
 			sendDataCallback(result, resultSize);
 
