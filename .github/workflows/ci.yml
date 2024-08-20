@@ -10,9 +10,58 @@ jobs:
     steps:
     - uses: actions/checkout@v4
   
+    - name: Enable NMake
+      uses: ilammy/msvc-dev-cmd@v1.13.0
+
+    - name: Build
+      run: |
+          cd scripts
+          .\build.bat
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Windows
+        path: build/bin
+          
+  
   linux-build:
     runs-on: ubuntu-latest
+    container:
+      image: lazypanda07/ubuntu_cxx20:24.04
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Build
+      shell: bash
+      run: |
+          cd scripts
+          source build.sh
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Linux
+        path: build/bin
   
+
+  android-build:
+    runs-on: ubuntu-latest
+    container:
+      image: lazypanda07/ubuntu_cxx20:android
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build
+      shell: bash
+      run: |
+          cd scripts
+          source android_build.sh
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: Android
+        path: build/bin

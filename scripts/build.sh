@@ -2,6 +2,8 @@
 
 set -e
 
-cd .. && mkdir -p build && cd build
+cd .. && rm -rf build && mkdir build && cd build
 
 cmake .. && make install -j $(nproc)
+
+cd ../scripts/
