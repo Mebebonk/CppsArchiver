@@ -45,6 +45,7 @@ namespace CppsArchiverAPI.FileClustering
 
 			}
 		}
+		#region Deserializers
 		private static CDFileHeader[] DeserializeCD(Stream stream, EOCDHeader eOCDHeader)
 		{
 			List<CDFileHeader> list = [];
@@ -148,5 +149,6 @@ namespace CppsArchiverAPI.FileClustering
 
 			return new(Encoding.UTF8.GetChars(buffer));
 		}
+		#endregion
 	}
 }
