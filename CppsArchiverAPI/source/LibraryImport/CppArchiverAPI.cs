@@ -12,7 +12,7 @@ namespace CppsArchiverAPI
 {
 	internal static partial class CppArchiverAPI
 	{
-		#region Unsafe
+		#region private_unsafe
 		[LibraryImport("ArchiverImplementation", EntryPoint = "unzip")]
 		private static unsafe partial void Unzip(
 			ulong compressionMethod,
@@ -31,13 +31,15 @@ namespace CppsArchiverAPI
 		private static partial void SetBufferSize(ulong size);
 		#endregion
 
+		#region delegates
 		internal delegate void SendDataCallback(byte[] data, ulong dataSize);
 
 		internal delegate byte[] ReceiveDataCallback(ulong size);
 
 		internal delegate void FinishCallback();
+		#endregion
 
-		internal static void SetUnzip(
+		internal static void ProcessFileUnzip(
 			ulong compressionMethod,
 			ulong compressedSize,
 			SendDataCallback sendCallback,

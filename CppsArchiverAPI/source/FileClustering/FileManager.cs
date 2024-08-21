@@ -16,6 +16,13 @@ namespace CppsArchiverAPI.FileClustering
 
 			return DeserializeCD(stream, cDpos);
 		}
+
+		public static LFileHeader LocateFile(Stream stream, CDFileHeader cDFileHeader)
+		{
+			stream.Position = cDFileHeader.RelativeOffset;
+
+			return DeserializeLFileHeader(stream);
+		}
 		private static EOCDHeader? FindCentralDirectory(Stream stream)
 		{
 			long pos = stream.Length - 22;
@@ -30,7 +37,7 @@ namespace CppsArchiverAPI.FileClustering
 
 				if (testString == "PK\u0005\u0006")
 				{
-					stream.Position = pos + 4;
+					stream.Position = pos;
 
 					return DeserializeEOCDHeader(stream);
 				}
@@ -45,7 +52,8 @@ namespace CppsArchiverAPI.FileClustering
 
 			}
 		}
-		#region Deserializers
+
+		#region deserializers
 		private static CDFileHeader[] DeserializeCD(Stream stream, EOCDHeader eOCDHeader)
 		{
 			List<CDFileHeader> list = [];
@@ -53,7 +61,6 @@ namespace CppsArchiverAPI.FileClustering
 
 			for (int i = 0; i < eOCDHeader.CDOTotalRecordCount; i++)
 			{
-				stream.Position += 4;
 				list.Add(DeserializeCDFile(stream));
 			}
 
@@ -61,6 +68,8 @@ namespace CppsArchiverAPI.FileClustering
 		}
 		private static CDFileHeader DeserializeCDFile(Stream stream)
 		{
+			DeserializeHeader(stream, "PK\u0001\u0002");
+
 			short versionMadeBy = DeserializeShort(stream);
 			short minVersion = DeserializeShort(stream);
 			short GPF = DeserializeShort(stream);
@@ -108,6 +117,8 @@ namespace CppsArchiverAPI.FileClustering
 		}
 		private static EOCDHeader DeserializeEOCDHeader(Stream stream)
 		{
+			DeserializeHeader(stream, "PK\u0005\u0006");
+
 			short diskNo = DeserializeShort(stream);
 			short diskStart = DeserializeShort(stream);
 			short currentRecords = DeserializeShort(stream);
@@ -120,6 +131,48 @@ namespace CppsArchiverAPI.FileClustering
 			string comment = DeserializeString(stream, commentSize);
 
 			return new(diskNo, diskStart, currentRecords, totalRecords, size, offset, commentSize, comment);
+		}
+		private static LFileHeader DeserializeLFileHeader(Stream stream)
+		{
+			//TODO: add field check
+
+			DeserializeHeader(stream, "PK\u0003\u0004");
+
+			short minVersion = DeserializeShort(stream);
+			short GPF = DeserializeShort(stream);
+			short compression = DeserializeShort(stream);
+			short lastModifiedTime = DeserializeShort(stream);
+			short lastModifiedDate = DeserializeShort(stream);
+
+			int CRC32 = DeserializeInt(stream);
+			int compressedSize = DeserializeInt(stream);
+			int uncompressedSize = DeserializeInt(stream);
+
+			short fileNameLength = DeserializeShort(stream);
+			short extraFieldLength = DeserializeShort(stream);
+
+			string fileName = DeserializeString(stream, fileNameLength);
+			string extraField = DeserializeString(stream, extraFieldLength);
+
+			return new(
+				minVersion, 
+				GPF, 
+				compression, 
+				lastModifiedTime, 
+				lastModifiedDate, 
+				CRC32, 
+				compressedSize, 
+				uncompressedSize, 
+				fileNameLength, 
+				extraFieldLength, 
+				fileName, 
+				extraField);
+		}
+
+		private static void DeserializeHeader(Stream stream, string header)
+		{
+			//TODO: change for explicit exception
+			if (DeserializeString(stream, 4) != header) { throw new("invalid signature found"); }
 		}
 		private static short DeserializeShort(Stream stream)
 		{
@@ -139,10 +192,7 @@ namespace CppsArchiverAPI.FileClustering
 		}
 		private static string DeserializeString(Stream stream, long size)
 		{
-			if (size == 0)
-			{
-				return "";
-			}
+			if (size == 0) { return ""; }
 
 			byte[] buffer = new byte[size];
 			stream.Read(buffer);
