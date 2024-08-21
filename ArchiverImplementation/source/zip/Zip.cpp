@@ -8,20 +8,16 @@
 
 namespace zip
 {
-	uint8_t* Zip::decodeUncompressed(const uint8_t* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
+	void Zip::decodeUncompressed(const uint8_t* encodedData, uint64_t encodedDataSize, std::vector<uint8_t>& buffer, uint64_t& decodedDataSize)
 	{
-		uint8_t* result = new uint8_t[encodedDataSize];
+		decodedDataSize = encodedDataSize;
 
-		*decodedDataSize = encodedDataSize;
-
-		std::copy(encodedData, encodedData + encodedDataSize, result);
-
-		return result;
+		std::copy(encodedData, encodedData + encodedDataSize, buffer.data());
 	}
 
-	uint8_t* Zip::decodeCompressed(const uint8_t* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
+	void Zip::decodeCompressed(const uint8_t* encodedData, uint64_t encodedDataSize, std::vector<uint8_t>& buffer, uint64_t& decodedDataSize)
 	{
-		return nullptr;
+		
 	}
 
 	Zip::Zip(uint64_t compressionMethod, uint64_t compressedSize) :
@@ -45,20 +41,22 @@ namespace zip
 		return size;
 	}
 
-	uint8_t* Zip::decode(const uint8_t* encodedData, uint64_t encodedDataSize, uint64_t* decodedDataSize)
+	void Zip::decode(const uint8_t* encodedData, uint64_t encodedDataSize, std::vector<uint8_t>& buffer, uint64_t& decodedDataSize)
 	{
 		switch (compressionMethod)
 		{
 		case 0x0:
-			return this->decodeUncompressed(encodedData, encodedDataSize, decodedDataSize);
+			this->decodeUncompressed(encodedData, encodedDataSize, buffer, decodedDataSize);
+
+			break;
 
 		case 0x8:
-			return this->decodeCompressed(encodedData, encodedDataSize, decodedDataSize);
+			this->decodeCompressed(encodedData, encodedDataSize, buffer, decodedDataSize);
+
+			break;
 
 		default:
 			throw std::runtime_error(std::format("Wrong compressionMethod: {}", compressionMethod));
 		}
-
-		return nullptr;
 	}
 }

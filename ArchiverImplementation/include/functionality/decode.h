@@ -11,16 +11,16 @@ namespace decoding
 		T decoder(std::forward<Args>(args)...);
 
 		uint64_t requestSize = decoder.request();
+		std::vector<uint8_t> buffer(bufferSize);
 
 		while (requestSize)
 		{
-			uint8_t* data = receiveDataCallback(requestSize);
+			const uint8_t* data = receiveDataCallback(requestSize);
 			uint64_t resultSize = 0;
-			uint8_t* result = decoder.decode(static_cast<const uint8_t*>(data), requestSize, &resultSize);
+			
+			decoder.decode(data, requestSize, buffer, resultSize);
 
-			sendDataCallback(result, resultSize);
-
-			delete[] result;
+			sendDataCallback(buffer.data(), resultSize);
 
 			requestSize = decoder.request();
 		}
