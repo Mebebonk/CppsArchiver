@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CppsArchiverAPI.FileClustering
+namespace CppsArchiverAPI
 {
 	public static class FileManager
 	{
@@ -16,7 +16,6 @@ namespace CppsArchiverAPI.FileClustering
 
 			return DeserializeCD(stream, cDpos);
 		}
-
 		public static LFileHeader LocateFile(Stream stream, CDFileHeader cDFileHeader)
 		{
 			stream.Position = cDFileHeader.RelativeOffset;
@@ -171,7 +170,7 @@ namespace CppsArchiverAPI.FileClustering
 
 		private static void DeserializeHeader(Stream stream, string header)
 		{
-			//TODO: change for explicit exception
+			//TODO: change to explicit exception
 			if (DeserializeString(stream, 4) != header) { throw new("invalid signature found"); }
 		}
 		private static short DeserializeShort(Stream stream)

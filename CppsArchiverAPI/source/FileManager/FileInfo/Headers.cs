@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CppsArchiverAPI.FileClustering
+namespace CppsArchiverAPI
 {
 	public class LFileHeader(
 					short minVersion,
