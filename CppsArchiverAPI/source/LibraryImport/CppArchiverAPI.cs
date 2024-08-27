@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CppsArchiverAPI.LibraryImport;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Pipes;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI
 {
-	internal static partial class CppArchiverAPI
+	public static partial class CppArchiverAPI
 	{
 		#region private_unsafe
 		[LibraryImport("ArchiverImplementation", EntryPoint = "unzip")]
@@ -29,33 +30,34 @@ namespace CppsArchiverAPI
 
 		[LibraryImport("ArchiverImplementation", EntryPoint = "setBufferSize")]
 		private static partial void SetBufferSize(ulong size);
+
 		#endregion
 
 		#region delegates
-		internal delegate void SendDataCallback(byte[] data, ulong dataSize);
 
-		internal delegate byte[] ReceiveDataCallback(ulong size);
+		public delegate void SendDataCallback(IntPtr data, ulong dataSize);
 
-		internal delegate void FinishCallback();
+		public delegate IntPtr ReceiveDataCallback(ulong size);
+
+		public delegate void FinishCallback();
+
 		#endregion
 
-		internal static void ProcessFileUnzip(
+		public static void ProcessFileUnzip(
 			ulong compressionMethod,
 			ulong compressedSize,
-			SendDataCallback sendCallback,
-			ReceiveDataCallback receiveCallback,
-			FinishCallback finishCallback)
-		{
+			ProcessHandler processHandler)
+		{			
 			unsafe
 			{
 				void* exception = null;
 				Unzip(
 					compressionMethod,
 					compressedSize,
-					Marshal.GetFunctionPointerForDelegate(sendCallback),
-					Marshal.GetFunctionPointerForDelegate(receiveCallback),
-					Marshal.GetFunctionPointerForDelegate(finishCallback),
-					ref exception);
+					Marshal.GetFunctionPointerForDelegate((SendDataCallback)processHandler.Receive),
+					Marshal.GetFunctionPointerForDelegate((ReceiveDataCallback)processHandler.Throw),
+					Marshal.GetFunctionPointerForDelegate((FinishCallback)processHandler.Finish),
+					ref exception);				
 				if (exception != null)
 				{
 					string message = GetExceptionMessage(exception);

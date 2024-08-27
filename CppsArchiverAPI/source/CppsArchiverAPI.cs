@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 namespace CppsArchiverAPI
 {
 	static public class CppsArchiverAPI
-	{	
+	{
+		
+		public static byte[] UnzipFile(CDFileHeader fileHeader)
+		{
+			
+			return [];
+		}		
 	}
 }

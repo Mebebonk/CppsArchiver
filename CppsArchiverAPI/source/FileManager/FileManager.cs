@@ -21,7 +21,7 @@ namespace CppsArchiverAPI
 			stream.Position = cDFileHeader.RelativeOffset;
 
 			return DeserializeLFileHeader(stream);
-		}
+		}		
 		private static EOCDHeader? FindCentralDirectory(Stream stream)
 		{
 			long pos = stream.Length - 22;
@@ -154,17 +154,17 @@ namespace CppsArchiverAPI
 			string extraField = DeserializeString(stream, extraFieldLength);
 
 			return new(
-				minVersion, 
-				GPF, 
-				compression, 
-				lastModifiedTime, 
-				lastModifiedDate, 
-				CRC32, 
-				compressedSize, 
-				uncompressedSize, 
-				fileNameLength, 
-				extraFieldLength, 
-				fileName, 
+				minVersion,
+				GPF,
+				compression,
+				lastModifiedTime,
+				lastModifiedDate,
+				CRC32,
+				compressedSize,
+				uncompressedSize,
+				fileNameLength,
+				extraFieldLength,
+				fileName,
 				extraField);
 		}
 
