@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI.LibraryImport
 {
-	internal abstract partial class BaseProcessHandler(Stream sourceStream, Stream destStream, short compression, ulong size)
+	public abstract partial class BaseProcessHandler(Stream sourceStream, Stream destStream, short compression, ulong size)
 	{
 
 		#region delegates

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI.LibraryImport.DerivedProcessHandlers
 {
-	internal class ZipHandler(Stream sourceStream, Stream destStream, short compression, ulong size) : BaseProcessHandler(sourceStream, destStream, compression, size)
+	public class ZipHandler(Stream sourceStream, Stream destStream, short compression, ulong size) : BaseProcessHandler(sourceStream, destStream, compression, size)
 	{
-		//#region private_unsafe
+		#region private_unsafe
 
 		//[LibraryImport("ArchiverImplementation", EntryPoint = "zip")]
 		//private static unsafe partial void Zip(
@@ -20,7 +20,7 @@ namespace CppsArchiverAPI.LibraryImport.DerivedProcessHandlers
 		//	IntPtr finishCallback,
 		//	ref void* exception);
 
-		//#endregion
+		#endregion
 
 		protected override unsafe Process GetProcess()
 		{

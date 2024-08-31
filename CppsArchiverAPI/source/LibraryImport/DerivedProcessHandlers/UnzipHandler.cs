@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI.LibraryImport.DerivedProcessHandlers
 {
-	internal partial class UnzipHandler(Stream sourceStream, Stream destStream, short compression, ulong size) : BaseProcessHandler(sourceStream, destStream, compression, size)
+	public partial class UnzipHandler(Stream sourceStream, Stream destStream, short compression, ulong size) : BaseProcessHandler(sourceStream, destStream, compression, size)
 	{
 		#region private_unsafe
 
@@ -26,6 +26,5 @@ namespace CppsArchiverAPI.LibraryImport.DerivedProcessHandlers
 		{
 			return Unzip;
 		}
-
 	}
 }
