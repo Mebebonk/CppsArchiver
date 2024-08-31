@@ -9,10 +9,10 @@ namespace CppsArchiverAPI
 	static public class CppsArchiverAPI
 	{
 		
-		public static byte[] UnzipFile()
+		public static void UnzipFile(Stream inStream, Stream outStream, CDFileHeader header)
 		{
 			
-			return [];
+			return;
 		}		
 	}
 }

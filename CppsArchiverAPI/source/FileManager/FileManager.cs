@@ -11,7 +11,7 @@ namespace CppsArchiverAPI
 	{
 		internal static CDFileHeader[]? GetCDFileHeaders(Stream stream)
 		{
-			EOCDHeader? cDpos = FindCentralDirectory(stream);
+			EOCDHeader? cDpos = FindEOCD(stream);
 			if (cDpos == null) { return null; }
 
 			return DeserializeCD(stream, cDpos);
@@ -22,17 +22,14 @@ namespace CppsArchiverAPI
 
 			return DeserializeLFileHeader(stream);
 		}		
-		private static EOCDHeader? FindCentralDirectory(Stream stream)
+		private static EOCDHeader? FindEOCD(Stream stream)
 		{
 			long pos = stream.Length - 22;
-			char[] buffer = new char[4];
-			using StreamReader sr = new(stream, leaveOpen: true);
 
 			while (true)
 			{
 				stream.Position = pos;
-				sr.Read(buffer);
-				string testString = new(buffer);
+				string testString = DeserializeString(stream, 4);
 
 				if (testString == "PK\u0005\u0006")
 				{
