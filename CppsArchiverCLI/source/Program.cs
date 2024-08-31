@@ -2,6 +2,7 @@
 using CppsArchiverAPI.LibraryImport;
 using System;
 using System.Collections;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -22,32 +23,30 @@ namespace CppsArchiverCLI
 
 			CDFileHeader[] files = CppsArchiverAPI.CppsArchiverAPI.GetCDFileHeaders(stream);
 
-			// TODO: Parallel.ForEach
-			foreach (var file in files)
+			Parallel.ForEach(files, (x) => UnzipSingle(x, stream, input, output));			
+		}
+
+		private static void UnzipSingle(CDFileHeader file, Stream stream, string input, string? output)
+		{
+			string path = Path.GetDirectoryName(file.FileName) ?? "";
+
+			if (output != null)
 			{
-				List<string> list = [.. file.FileName.Split(Path.DirectorySeparatorChar)];
-				list.RemoveAt(list.Count - 1);
-
-				string path = String.Join(Path.DirectorySeparatorChar, list);
-
-				if (output != null)
-				{
-					path = $"{output}{Path.DirectorySeparatorChar}{path}";
-				}
-				else
-				{
-					path = $"{$@".{Path.DirectorySeparatorChar}{input.Split('.')[^2]}{Path.DirectorySeparatorChar}"}{Path.DirectorySeparatorChar}{path}";
-				}
-
-				if (!String.IsNullOrWhiteSpace(path))
-				{
-					Directory.CreateDirectory(path);
-				}
-
-				using FileStream fs = File.Open(path + file.FileName, FileMode.Create);
-
-				CppsArchiverAPI.CppsArchiverAPI.ProcessFile<UnzipHandler>(stream, fs, file);
+				path = Path.Combine(output, Path.GetFileNameWithoutExtension(input), path);
 			}
+			else
+			{
+				path = Path.Combine(Path.GetDirectoryName(input) ?? "", Path.GetFileNameWithoutExtension(input), path);
+			}
+
+			if (!String.IsNullOrWhiteSpace(path))
+			{
+				Directory.CreateDirectory(path);
+			}
+
+			using FileStream fs = File.Open(Path.Combine(path, file.FileName), FileMode.Create);
+
+			CppsArchiverAPI.CppsArchiverAPI.ProcessFile<UnzipHandler>(stream, fs, file);
 		}
 	}
 }
