@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI.LibraryImport
 {
-	public abstract partial class BaseProcessHandler(Stream sourceStream, Stream destStream, short compression, ulong size)
+	internal abstract partial class BaseProcessHandler(Stream sourceStream, Stream destStream, short compression, ulong size)
 	{
 
 		#region delegates
@@ -18,6 +19,13 @@ namespace CppsArchiverAPI.LibraryImport
 		private delegate IntPtr ReceiveDataCallback(ulong size);
 
 		private delegate void FinishCallback();
+
+		protected unsafe delegate void Process(ulong compressionMethod,
+			ulong size,
+			IntPtr sendCallback,
+			IntPtr receiveCallback,
+			IntPtr finishCallback,
+			ref void* exception);
 
 		#endregion
 
@@ -71,29 +79,27 @@ namespace CppsArchiverAPI.LibraryImport
 			}
 		}
 
-		protected abstract unsafe void Process(ulong compressionMethod,
-			ulong size,
-			IntPtr sendCallback,
-			IntPtr receiveCallback,
-			IntPtr finishCallback,
-			ref void* exception);
+		protected abstract Process GetProcess();		
 
-		public void ProcessFile()
+		internal void ProcessFile()
 		{
 			unsafe
 			{
 				void* exception = null;
-				Process(
-					(ulong)compression,
+
+				GetProcess()((ulong)compression,
 					size,
 					Marshal.GetFunctionPointerForDelegate((SendDataCallback)Receive),
 					Marshal.GetFunctionPointerForDelegate((ReceiveDataCallback)Throw),
 					Marshal.GetFunctionPointerForDelegate((FinishCallback)Finish),
 					ref exception);
+
 				if (exception != null)
 				{
 					string message = GetExceptionMessage(exception);
 					DeleteException(exception);
+
+					// TODO: change to explicit exception
 
 					throw new(message);
 				}

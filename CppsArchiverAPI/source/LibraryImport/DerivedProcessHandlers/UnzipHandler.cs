@@ -22,9 +22,9 @@ namespace CppsArchiverAPI.LibraryImport.DerivedProcessHandlers
 			ref void* exception);
 		#endregion
 
-		protected override unsafe void Process(ulong compressionMethod, ulong size, nint sendCallback, nint receiveCallback, nint finishCallback, ref void* exception)
+		protected override unsafe Process GetProcess()
 		{
-			Unzip(compressionMethod, size, sendCallback, receiveCallback, finishCallback, ref exception);
+			return Unzip;
 		}
 
 	}

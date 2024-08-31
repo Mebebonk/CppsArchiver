@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI
 {
-	public static class FileManager
+	internal static class FileManager
 	{
-		public static CDFileHeader[]? GetCDFileHeaders(Stream stream)
+		internal static CDFileHeader[]? GetCDFileHeaders(Stream stream)
 		{
 			EOCDHeader? cDpos = FindCentralDirectory(stream);
 			if (cDpos == null) { return null; }
 
 			return DeserializeCD(stream, cDpos);
 		}
-		public static LFileHeader LocateFile(Stream stream, CDFileHeader cDFileHeader)
+		internal static LFileHeader LocateFile(Stream stream, CDFileHeader cDFileHeader)
 		{
 			stream.Position = cDFileHeader.RelativeOffset;
 

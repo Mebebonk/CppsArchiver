@@ -7,25 +7,27 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI.LibraryImport.DerivedProcessHandlers
 {
-	//internal class ZipHandler(Stream sourceStream, Stream destStream, short compression, ulong size) : BaseProcessHandler(sourceStream, destStream, compression, size)
-	//{
-	//	#region private_unsafe
+	internal class ZipHandler(Stream sourceStream, Stream destStream, short compression, ulong size) : BaseProcessHandler(sourceStream, destStream, compression, size)
+	{
+		//#region private_unsafe
 
-	//	[LibraryImport("ArchiverImplementation", EntryPoint = "zip")]
-	//	private static unsafe partial void Zip(
-	//		ulong compressionMethod,
-	//		ulong compressedSize,
-	//		IntPtr sendCallback,
-	//		IntPtr receiveCallback,
-	//		IntPtr finishCallback,
-	//		ref void* exception);
-	//	#endregion
+		//[LibraryImport("ArchiverImplementation", EntryPoint = "zip")]
+		//private static unsafe partial void Zip(
+		//	ulong compressionMethod,
+		//	ulong compressedSize,
+		//	IntPtr sendCallback,
+		//	IntPtr receiveCallback,
+		//	IntPtr finishCallback,
+		//	ref void* exception);
 
-	//	protected override unsafe void Process(ulong compressionMethod, ulong size, nint sendCallback, nint receiveCallback, nint finishCallback, ref void* exception)
-	//	{
-	//		Zip(compressionMethod, size, sendCallback, receiveCallback, finishCallback, ref exception);
-	//	}
-	//}
+		//#endregion
+
+		protected override unsafe Process GetProcess()
+		{
+			throw new NotImplementedException();
+			//return Zip;
+		}
+	}
 }
 
 
