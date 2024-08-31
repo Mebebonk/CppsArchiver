@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "CppsArchiverCLI": {
-      "commandName": "Project",
-      "commandLineArgs": "--input testZip.zip"
-    }
-  }
-}

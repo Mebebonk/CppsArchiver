@@ -13,39 +13,40 @@ namespace CppsArchiverCLI
 		{
 			if (input == null)
 			{
-				Console.WriteLine("No input file was found!");				
+				Console.WriteLine("No input file was found!");
+
+				return;
 			}
-			else
+
+			using Stream stream = File.OpenRead(input);
+
+			CDFileHeader[] files = CppsArchiverAPI.CppsArchiverAPI.GetCDFileHeaders(stream);
+
+			// TODO: Parallel.ForEach
+			foreach (var file in files)
 			{
-				using Stream stream = File.OpenRead(input);
+				List<string> list = [.. file.FileName.Split(Path.DirectorySeparatorChar)];
+				list.RemoveAt(list.Count - 1);
 
-				CDFileHeader[] files = CppsArchiverAPI.CppsArchiverAPI.GetCDFileHeaders(stream);
+				string path = String.Join(Path.DirectorySeparatorChar, list);
 
-				foreach (var file in files)
+				if (output != null)
 				{
-					List<string> list = [.. file.FileName.Split('\\')];
-					list.RemoveAt(list.Count - 1);
-
-					string path = String.Join('\\', list);
-
-					if (output != null)
-					{
-						path = $"{output}\\{path}";
-					}
-					else
-					{
-						path = $"{$@".\{input.Split('.')[^2]}\"}\\{path}";
-					}
-
-					if (!String.IsNullOrWhiteSpace(path))
-					{
-						Directory.CreateDirectory(path);
-					}
-
-					using FileStream fs = File.Open(path + file.FileName, FileMode.Create);
-
-					CppsArchiverAPI.CppsArchiverAPI.ProcessFile<UnzipHandler>(stream, fs, file);
+					path = $"{output}{Path.DirectorySeparatorChar}{path}";
 				}
+				else
+				{
+					path = $"{$@".{Path.DirectorySeparatorChar}{input.Split('.')[^2]}\"}{Path.DirectorySeparatorChar}{path}";
+				}
+
+				if (!String.IsNullOrWhiteSpace(path))
+				{
+					Directory.CreateDirectory(path);
+				}
+
+				using FileStream fs = File.Open(path + file.FileName, FileMode.Create);
+
+				CppsArchiverAPI.CppsArchiverAPI.ProcessFile<UnzipHandler>(stream, fs, file);
 			}
 		}
 	}

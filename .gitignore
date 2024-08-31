@@ -399,3 +399,6 @@ FodyWeavers.xsd
 
 # Binaries
 build/
+
+# C# launch parameters
+Properties/
