@@ -7,47 +7,47 @@ using System.Threading.Tasks;
 
 namespace CppsArchiverAPI
 {
-	public static class FileManager
+	internal static class FileManager
 	{
-		public static CDFileHeader[]? GetCDFileHeaders(Stream stream)
+		internal static CDFileHeader[]? GetCDFileHeaders(Stream stream)
 		{
-			EOCDHeader? cDpos = FindCentralDirectory(stream);
+			EOCDHeader? cDpos = FindEOCD(stream);
 			if (cDpos == null) { return null; }
-
+					
 			return DeserializeCD(stream, cDpos);
 		}
-		public static LFileHeader LocateFile(Stream stream, CDFileHeader cDFileHeader)
+		internal static LFileHeader LocateFile(Stream stream, CDFileHeader cDFileHeader)
 		{
 			stream.Position = cDFileHeader.RelativeOffset;
 
 			return DeserializeLFileHeader(stream);
 		}
-		private static EOCDHeader? FindCentralDirectory(Stream stream)
+		private static EOCDHeader? FindEOCD(Stream stream)
 		{
-			long pos = stream.Length - 22;
-			char[] buffer = new char[4];
-			using StreamReader sr = new(stream, leaveOpen: true);
+			stream.Position = stream.Length - 22;
 
 			while (true)
 			{
-				stream.Position = pos;
-				sr.Read(buffer);
-				string testString = new(buffer);
 
-				if (testString == "PK\u0005\u0006")
+				if (DeserializeString(stream, 4) == "PK\u0005\u0006")
 				{
-					stream.Position = pos;
+					stream.Position -= 4;
 
 					return DeserializeEOCDHeader(stream);
 				}
 
 				//TODO: PK\u0006\u0006 (EOCD64)
 
-				pos--;
-				if (pos < 0)
+				try
+				{
+					stream.Position -= 5;
+				}
+				catch (ArgumentOutOfRangeException)
 				{
 					return null;
 				}
+
+				if (stream.Position < 0) { return null; }
 
 			}
 		}
@@ -154,17 +154,17 @@ namespace CppsArchiverAPI
 			string extraField = DeserializeString(stream, extraFieldLength);
 
 			return new(
-				minVersion, 
-				GPF, 
-				compression, 
-				lastModifiedTime, 
-				lastModifiedDate, 
-				CRC32, 
-				compressedSize, 
-				uncompressedSize, 
-				fileNameLength, 
-				extraFieldLength, 
-				fileName, 
+				minVersion,
+				GPF,
+				compression,
+				lastModifiedTime,
+				lastModifiedDate,
+				CRC32,
+				compressedSize,
+				uncompressedSize,
+				fileNameLength,
+				extraFieldLength,
+				fileName,
 				extraField);
 		}
 
