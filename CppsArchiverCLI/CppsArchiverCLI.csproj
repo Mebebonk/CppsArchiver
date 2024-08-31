@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ArchiverImplementation\ArchiverImplementation.vcxproj" />
     <ProjectReference Include="..\CppsArchiverAPI\CppsArchiverAPI.csproj" />
   </ItemGroup>
 

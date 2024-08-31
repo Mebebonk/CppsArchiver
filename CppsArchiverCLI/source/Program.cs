@@ -36,7 +36,7 @@ namespace CppsArchiverCLI
 				}
 				else
 				{
-					path = $"{$@".{Path.DirectorySeparatorChar}{input.Split('.')[^2]}\"}{Path.DirectorySeparatorChar}{path}";
+					path = $"{$@".{Path.DirectorySeparatorChar}{input.Split('.')[^2]}{Path.DirectorySeparatorChar}"}{Path.DirectorySeparatorChar}{path}";
 				}
 
 				if (!String.IsNullOrWhiteSpace(path))
