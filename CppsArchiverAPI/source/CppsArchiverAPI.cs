@@ -1,5 +1,4 @@
 ﻿using CppsArchiverAPI.LibraryImport;
-using CppsArchiverAPI.LibraryImport.DerivedProcessHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +13,10 @@ namespace CppsArchiverAPI
 		public static void ProcessFile<T>(Stream inStream, Stream outStream, CDFileHeader header) where T : BaseProcessHandler
 		{
 			FileManager.LocateFile(inStream, header);
+			//TODO: Add explicit exception
 			T uh = (T)Activator.CreateInstance(typeof(T), [inStream, outStream, header.Compression, (ulong)header.CompressedSize])!;
-			//UnzipHandler uh = new(inStream, outStream, header.Compression, (ulong)header.CompressedSize);
 
 			uh.ProcessFile();
-			return;
 		}
 
 		public static CDFileHeader[] GetCDFileHeaders(Stream inStream)

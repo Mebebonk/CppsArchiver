@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CppsArchiverAPI.LibraryImport.DerivedProcessHandlers
+namespace CppsArchiverAPI.LibraryImport
 {
 	public partial class UnzipHandler(Stream sourceStream, Stream destStream, short compression, ulong size) : BaseProcessHandler(sourceStream, destStream, compression, size)
 	{
